@@ -158,7 +158,7 @@ class ADOS_Data(pd.DataFrame):
         return self.columns[columnIndices]
 
     def drop_constant_columns(self):
-        self.loc[:, (self != self.ix[0]).any()]
+        self.loc[:, (self != self.loc[0]).any()]
 
     def print_full(self):
         pd.set_option('display.max_rows', len(self))

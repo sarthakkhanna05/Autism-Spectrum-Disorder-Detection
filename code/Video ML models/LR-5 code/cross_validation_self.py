@@ -1,5 +1,6 @@
 __author__ = 'Sebastien Levy'
-from sklearn import model_selection, cross_validation, metrics
+from sklearn import model_selection, metrics
+from sklearn.model_selection import StratifiedKFold
 from pandas import Series
 from collections import Counter
 from metrics import severity_proba_ROC
@@ -9,10 +10,11 @@ import itertools
 import matplotlib.pyplot as plt
 
 class CVP_Set(object):
-    def __init__(self, features, labels, n_fold, pred_ratio):
+    def __init__(self, features, labels, n_folds, pred_ratio):
         self.cv_feat, self.pred_feat, self.cv_labels, self.pred_labels = model_selection.train_test_split(
             features, labels, test_size=pred_ratio, random_state=0)
-        self.cv_set = cross_validation.StratifiedKFold(self.cv_labels, n_folds=n_fold)
+        self.folds_n=10
+        self.cv_set = StratifiedKFold(n_splits=self.folds_n, random_state=0, shuffle=False)
         self.columns = self.cv_feat.columns
         self.cv_feat = self.cv_feat.as_matrix()
         self.matrix_labels = self.cv_labels.as_matrix()
